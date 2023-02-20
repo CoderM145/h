@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+  <title>ChatBot</title>
+  <head>
+    <style>
+      body {
+        font-family: monospace;
+      }
+      h1 {
+        background-color: #f28482;
+        color: #000000;
+        display: inline-block;
+        font-size: 2em;
+        margin: 0;
+        padding: 10px;
+        border: 2px solid #000000;
+        border-bottom: none;
+      }
+      h2 {
+        background-color: yellow;
+        color: #000000;
+        display: inline-block;
+        font-size: 2em;
+        margin: 0;
+        padding: 10px;
+        margin-top: 15px;
+        border: 2px solid #000000;
+      }
+
+
+      #chatbox {
+        margin-left: auto;
+        margin-right: auto;
+        width: 55%;
+        margin-top: 60px;
+      }
+      #userInput {
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        margin-top: 60px;
+      }
+      #textInput {
+        width: 90%;
+        border: 2px solid #000000;
+        border-bottom: 3px solid #000000;
+        font-family: monospace;
+        font-size: 17px;
+        margin-bottom: 10px;
+      }
+      #textInput:focus {
+        outline:none;
+        border: 2px solid #000000;
+      }
+      .userText {
+        padding-left: 10%;
+        animation: pulse .5s ease-in-out;
+      }
+      .userText p {
+        color: #000000;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: right;
+        line-height: 30px;
+        margin-top: 25px;
+        background-color: #f6bd60;
+        box-shadow: 10px 10px 0px 0px #000000;
+        border: 2px solid #000000;
+        padding: 10px;
+      }
+      span
+      {
+              white-space:pre-wrap;
+
+      }
+      .userText span {
+        padding: 10px;
+      }
+      .botText {
+        padding-right: 10%;
+        animation: pulse .5s ease-in-out;
+      }
+      .botText p {
+        color: #000000;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: left;
+        line-height: 30px;
+        background-color: #84a59d ;
+        box-shadow: 10px 10px 0px 0px #000000;
+        border: 2px solid #000000;
+        padding: 10px;
+      }
+      .botText span {
+        padding: 10px;
+      }
+      #tidbit {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 300px;
+      }
+      .boxed {
+        margin-left: auto;
+        margin-right: auto;
+        width: 70%;
+        margin-top: 60px;
+        border: 2px solid #000000;
+        background-color: #f7ede2;
+      }
+      .box {
+        border: 2px solid #000000;
+      }
+      .center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.circle{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+	background: transparent;
+    border-radius: 50%;
+	box-shadow:
+		30px 30px 0px #1abc9c,
+		30px -30px 0px #2ecc71,
+		-30px 30px 0px #9b59b6,
+		-30px -30px 0px #e67e22,
+		0px 42px 0px #f1c40f,
+		0px -42px 0px #2c3e50,
+		42px 0px 0px #66ccff,
+		-42px 0px 0px #e74c3c;
+	animation: animate 3s infinite;
+}
+.btn {
+      /* 文字颜色 */
+      color: #0099CC;
+      /* 清除背景色 */
+      background: transparent;
+      /* 边框样式、颜色、宽度 */
+      border: 2px solid #0099CC;
+      /* 给边框添加圆角 */
+      border-radius: 6px;
+      /* 字母转大写 */
+      border: none;
+      color: white;
+      padding: 16px 32px;
+      text-align: center;
+      display: block;
+      font-size: 16px;
+      margin: 4px 2px;
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+      cursor: pointer;
+      text-decoration: none;
+      text-transform: uppercase;
+}
+.btn1 {
+      background-color: white;
+      color: black;
+      border: 2px solid #008CBA;
+}
+/* 悬停样式 */
+.btn1:hover {
+      background-color: #008CBA;
+      color: white;
+}
+
+p.p2 {margin: 5.0px 0.0px 5.0px 0.0px; text-indent: 2em; line-height: 37.0px; font: 14.0px 'PingFang SC Semibold'; color: #1d1d1d; -webkit-text-stroke: #1d1d1d}
+    p.p3 {margin: 5.0px 0.0px 5.0px 0.0px; text-indent: 2em; line-height: 37.0px; font: 14.0px 'PingFang SC'; color: #1d1d1d; -webkit-text-stroke: #1d1d1d}
+    p.p4 {margin: 5.0px 0.0px 5.0px 0.0px; text-indent: 2em; line-height: 31.0px; font: 14.0px 'PingFang SC'; color: #1d1d1d; -webkit-text-stroke: #1d1d1d}
+    p.p5 {margin: 5.0px 0.0px 5.0px 0.0px; text-indent: 2em; line-height: 31.0px; font: 14.0px 'PingFang SC Semibold'; color: #1d1d1d; -webkit-text-stroke: #1d1d1d}
+    p.p6 {margin: 5.0px 0.0px 5.0px 0.0px; text-align: right; line-height: 37.0px; font: 14.0px 'PingFang SC'; color: #1d1d1d; -webkit-text-stroke: #1d1d1d}
+    span.s1 {font: 16.0px 'PingFang SC'; font-kerning: none}
+    span.s2 {font: 14.0px 'PingFang SC'; font-kerning: none}
+    span.s3 {font-kerning: none}
+    span.s4 {font: 12.0px Tahoma; font-kerning: none}
+    span.s5 {font-kerning: none; color: #141414; background-color: #ffffff; -webkit-text-stroke: 0px #6d6d6d}
+
+@keyframes animate{
+	0%{
+		box-shadow:
+			3px 3px 3px #1abc9c,
+		 	3px -3px 0px #2ecc71,
+		 	-3px 3px 0px #9b59b6,
+		 	-3px -3px 0px #e67e22,
+		 	0px 4px 0px #f1c40f,
+		 	0px -4px 0px #2c3e50,
+		 	4px 0px 0px #66ccff,
+		 	-4px 0px 0px #e74c3c;
+		transform: rotate(0deg)
+	}
+	50%{
+		box-shadow:
+			30px 30px 0px #1abc9c,
+			30px -30px 0px #2ecc71,
+			-30px 30px 0px #9b59b6,
+			-30px -30px 0px #e67e22,
+			0px 42px 0px #f1c40f,
+			0px -42px 0px #2c3e50,
+			42px 0px 0px #66ccff,
+			-42px 0px 0px #e74c3c;
+		transform: rotate(360deg)
+	}
+	100%{
+		box-shadow:
+			3px 3px 3px #1abc9c,
+		 	3px -3px 0px #2ecc71,
+		 	-3px 3px 0px #9b59b6,
+		 	-3px -3px 0px #e67e22,
+		 	0px 4px 0px #f1c40f,
+		 	0px -4px 0px #2c3e50,
+		 	4px 0px 0px #66ccff,
+		 	-4px 0px 0px #e74c3c;
+		transform: rotate(720deg)
+	}
+}
+      @keyframes pulse {
+        from {
+          transform: scale3d(1, 1, 1);
+        }
+
+        50% {
+          transform: scale3d(1.05, 1.05, 1.05);
+        }
+
+        to {
+          transform: scale3d(1, 1, 1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+      <h2>
+            欢迎使用ChatGPT3.0
+<br>
+        他可以回答你的任何问题哦
+      </h2>
+    </center>
+    <div class="box"></div>
+
+    <center>
+
+
+     <a href="" target="_blank">
+      <h2>
+        ©CoderM
+      </h2> </a>
+      
+           <a href="" target="_blank">
+      <h2>
+        基于ChatGPT3.0 API
+      </h2> </a>
+    </center>
+ <div class="boxed">
+     <div style="display: inline-block; margin-right: 2rem;">
+      <h3><input type="radio" name="pattern" value="default_chat" checked > 默认聊天模式<br>      </h3>
+    </div>
+
+
+
+    <div style="display: inline-block;">
+      <h3><input type="radio" name="memory_type" value="memory" checked> 记忆模式(可以记忆上下文，但是输出受到上下文影响)<br>      </h3>
+      <h3><input type="radio" name="memory_type" value="forget"> 遗忘模式(无法记忆上下文，输出仅受到当前输入影响)</h3>
+    </div>
+
+    <br>
+
+
+ <div>
+        <div id="chatbox"></div>
+
+
+        <div id="userInput">
+          <input id="textInput" type="text" name="msg" placeholder="请在这输入你的问题，不要带有敏感词汇！" /> <button id="enter" style="display: inline-block;">输入</button>
+        </div>
+
+
+
+      </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<script src="http://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jsencrypt/3.3.1/jsencrypt.js"></script>
+<script>
+
+
+function encrypt(raw, key)
+{
+  key = CryptoJS.enc.Utf8.parse(key);
+  var encrypted = CryptoJS.AES.encrypt(raw, key, {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+  return encrypted.toString();
+
+
+}
+
+function decrypt(encrypted, key)
+{
+  key = CryptoJS.enc.Utf8.parse(key);
+  var decrypted = CryptoJS.AES.decrypt(encrypted, key, {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+  return decrypted.toString(CryptoJS.enc.Utf8).toString(CryptoJS.enc.Utf8);
+}
+
+var aes_key = 'AAAAAAAAAAAAAAAA';
+	var textInput = document.getElementById("textInput");
+        var chatBox = document.getElementById("chatbox");
+        var button = document.getElementById("enter");
+        function getNewBotImage () {
+          var imageNode = Object.assign(document.createElement("img"), {
+            src: "https://cdn.iconscout.com/icon/premium/png-256-thumb/ai-robot-5-1089411.png",
+            alt: "Hello",
+            width: "25"
+          });
+          return imageNode;
+        }
+
+        function renderMessage(msg, className) {
+          var msgHtml = document.createElement("div");
+          msgHtml.appendChild(document.createElement("p"))
+                 .appendChild(document.createElement("span"))
+                 .appendChild(document.createTextNode(msg));
+          msgHtml.className = className;
+          return msgHtml;
+        }
+
+        function writeAsUser(msg) {
+          chatBox.appendChild(renderMessage(msg, "userText"));
+          scrollToBottom();
+        }
+
+        function writeAsBot(msg) {
+          chatBox.appendChild(getNewBotImage());
+          chatBox.appendChild(renderMessage(msg, "botText"));
+          scrollToBottom();
+        }
+
+        function scrollToBottom() {
+            textInput.scrollIntoView({ block: "start", behavior: "smooth" });
+        }
+
+        function getAllInnerHtml() {
+          var allHtml = "";
+         // get all the innerHtml in the span label in the chatbox
+         var chatbox = document.getElementById("chatbox");
+          var allSpan = chatbox.getElementsByTagName("span");
+          //
+          for (var i = 0; i < allSpan.length; i++) {
+            allHtml += allSpan[i].innerHTML;
+          }
+          return allHtml;
+
+            // var allSpan = document.getElementsByTagName("span");
+            // for (var i = 0; i < allSpan.length; i++) {
+            //     allHtml += allSpan[i].innerHTML;
+            // }
+            // return allHtml;
+        }
+
+        function talkToBot() {
+          var rawText = textInput.value;
+          var rawTextTempt = rawText;
+          if (rawText == "") {
+           alert("不要输入空字符串，容易引起服务器崩溃");
+            return;
+          }
+          textInput.value = "";
+
+          writeAsUser(rawText);
+          let memory_type = $("input[name='memory_type']:checked").val();
+          if (memory_type == "memory") {
+            rawText = getAllInnerHtml();
+
+          }
+          else
+          {
+            rawText = rawTextTempt;
+
+          }
+
+          // rawText = getAllInnerHtml();
+          // make now the user can not type anything
+            textInput.disabled = true;
+            // make a <div class="center"?><div class="circle"></div </div>
+            var loading = document.createElement("div");
+            loading.className = "center";
+            loading.style.position = "absolute";
+            loading.style.top = "50%";
+            loading.style.left = "50%";
+            loading.style.transform = "translate(-50%, -50%)";
+            loading.style.position = "fixed";
+
+            loading.appendChild(document.createElement("div")).className = "circle";
+            // infont of the center screen
+            document.body.appendChild(loading);
+            // absolute position in the center of the screen
+
+            // send the message to the server
+	   //$("input[name='pattern']:checked").val();
+           let radios = $("input[name='pattern']:checked").val();// document.querySelectorAll('input[name="pattern"]');
+      //  rawText = encrypt(rawText, aes_key);
+		//  alert(radios);
+            //发送请求
+        //    console.log(rawText);
+	 if(radios == "default_chat")
+{
+   $.ajax({
+          // url:"http://127.0.0.1:1645/api/get_chat"+ "?chat_type="+"chat"+"&msg=" + rawText+"&answer_mode=conversation",
+
+          　　  url:"http://104.168.57.103/api/get_chat"+ "?chat_type="+"chat"+"&msg=" + rawText+"&answer_mode=conversation",
+          　　  type : 'get',
+          　　  success:function(data){
+            writeAsBot(data['data']);
+                textInput.disabled = false;
+                // remove the loading
+                document.body.removeChild(loading);
+
+},
+
+                // POST请求失败的回调函数
+                error: function (xhr, textStatus, errorThrown) {
+                  textInput.disabled = false;
+                // remove the loading
+                document.body.removeChild(loading);
+                }
+        },
+        );
+
+
+
+
+            }
+	else if(radios == "code_generate")
+{
+  $.ajax({
+          　　  url:"https://www.nlpbot114514.xyz/api/get_chat"+ "?chat_type="+"code"+"&msg=" + rawText+"&answer_mode=conversation",
+          　　  type : 'post',
+          　　  success:function(data){
+            writeAsBot(data['data']);
+                textInput.disabled = false;
+                // remove the loading
+                document.body.removeChild(loading);
+
+},
+
+                // POST请求失败的回调函数
+                error: function (xhr, textStatus, errorThrown) {
+                  textInput.disabled = false;
+                // remove the loading
+                document.body.removeChild(loading);
+                }
+        },
+        );
+
+}
+
+else
+{
+    fetch("/get_pro?" + new URLSearchParams({
+            msg: rawText
+          })).then(response => response.text())
+             .then(responseText => {
+                   responseText = decrypt(responseText, aes_key);
+                writeAsBot(responseText);
+                textInput.disabled = false;
+                // remove the loading
+                document.body.removeChild(loading);
+              }
+
+              );
+
+}
+
+
+        }
+
+
+
+        textInput.addEventListener('keypress', e => {
+          if (e.which == 13) {
+            talkToBot();
+          }
+        });
+        button.addEventListener('click', talkToBot);
+
+
+         writeAsBot("你好，我是ChatGPT，我可以回答你的问题。");
+
+
+
+</script>
+
+    </div>
+    <p class="p2"><span class="s2"><b>免责声明</b></span></p>
+    <p class="p3"><span class="s3">ChatGPT 是一个训练有素的语言模型，旨在通过回答问题来帮助用户。ChatGPT 被训练与数据来源广泛，但是它不能保证回答所有问题的准确性和完整性。用户应该对 ChatGPT 的回答进行独立验证和判断。<b>服务提供者不承担任何由于使用 ChatGPT 生成的回答而导致的任何直接、间接、特殊、偶然或后果性损害的责任。</b> 请注意，ChatGPT 不能识别特殊的上下文，如语境或用户的情感。因此，回答可能不适合所有场景。此外，ChatGPT 受到训练数据的影响，因此回答可能存在偏见、错误或不当内容。
+      <b>   使用 ChatGPT 前，请仔细阅读本声明。通过使用 ChatGPT，即表示您同意本声明的所有条款和条件。</b></span></p>
+    <p class="p3"><span class="s3">
+     </span></p>
+
+  </boidy>
+</html>
